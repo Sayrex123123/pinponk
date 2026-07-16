@@ -34,3 +34,8 @@ img_back = 'back.jpg'
 img_rocket = Player('line.png', 30, 200, 4, 50, 150)
 img_rocket1 = Player('line.png', 520, 200, 4, 50, 150)
 img_ball = GameSprite('ball.png', 200, 200, 4, 50, 50)
+win_width = 700
+win_height = 500
+display.set_caption("Pingball")
+window = display.set_mode((win_width, win_height))
+background = transform.scale(image.load(img_back), (win_width, win_height))
