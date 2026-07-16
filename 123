@@ -30,4 +30,7 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
-   
+img_back = 'back.jpg'
+img_rocket = Player('line.png', 30, 200, 4, 50, 150)
+img_rocket1 = Player('line.png', 520, 200, 4, 50, 150)
+img_ball = GameSprite('ball.png', 200, 200, 4, 50, 50)
