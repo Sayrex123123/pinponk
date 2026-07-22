@@ -39,3 +39,36 @@ win_height = 500
 display.set_caption("Pingball")
 window = display.set_mode((win_width, win_height))
 background = transform.scale(image.load(img_back), (win_width, win_height))
+game = True
+finish = False
+clock = time.Clock()
+fps = 60
+font1 = font.SysFont('Arial', 80)
+lose1 = font1.render('Player one lose!', True, (255, 255, 255))
+lose2 = font1.render('Player two lose!', True, (255, 255, 255))
+speed_x = 3 
+speed_y = 3
+while game:
+    for e in event.get():
+        if e.type == QUIT:
+            game = False
+    if finish != True:
+        window.blit(background, (0, 0))
+        if sprite.collide_rect(img_rocket, img_ball) or sprite.collide_rect(img_rocket1, img_ball):
+           speed_x *= -1
+           speed_y *= -1
+        if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+            speed_y *= -1
+        if ball.rect.x < 0:
+            finish = True
+            window.blit(lose1,(200, 200))
+            game_over = True
+        if ball.rect.x > win_widht
+            finish = True
+            window.blit(lose2,(200, 200))
+            game_over = True
+        rocket1.reset()
+        rocket.reset()
+        ball.reset()
+        display.update()
+        clock.tick(FPS)
