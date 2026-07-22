@@ -1,11 +1,11 @@
 from pygame import *
 class GameSprite(sprite.Sprite):
  #конструктор класса
-    def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
+    def __init__(self, player_image, player_x, player_y, player_speed, width,height):
         #вызываем конструктор класса (Sprite):
-        sprite.Sprite.__init__(self)
+        super().__init__()
         #каждый спрайт должен хранить свойство image - изображение
-        self.image = transform.scale(image.load(player_image), (size_x, size_y))
+        self.image = transform.scale(image.load(player_image), (width, height))
         self.speed = player_speed
         #каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан
         self.rect = self.image.get_rect()
@@ -30,19 +30,22 @@ class Player(GameSprite):
             self.rect.y -= self.speed
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
-img_back = 'back.jpg'
-img_rocket = Player('line.png', 30, 200, 4, 50, 150)
-img_rocket1 = Player('line.png', 520, 200, 4, 50, 150)
-img_ball = GameSprite('ball.png', 200, 200, 4, 50, 50)
+# img_back = 'back.webp'
+img_rocket = Player('line.png.png', 15, 200, 4, 50, 150)
+img_rocket1 = Player('line.png.png', 650, 200, 4, 50, 150)
+img_ball = GameSprite('ball.png.png', 200, 200, 1, 50, 50)
 win_width = 700
 win_height = 500
+img_back = (243, 250, 239)
 display.set_caption("Pingball")
 window = display.set_mode((win_width, win_height))
-background = transform.scale(image.load(img_back), (win_width, win_height))
+window.fill(img_back)
+# background = transform.scale(image.load(img_back), (win_width, win_height))
 game = True
 finish = False
 clock = time.Clock()
-fps = 60
+FPS = 60
+font.init()
 font1 = font.SysFont('Arial', 80)
 lose1 = font1.render('Player one lose!', True, (255, 255, 255))
 lose2 = font1.render('Player two lose!', True, (255, 255, 255))
@@ -53,22 +56,27 @@ while game:
         if e.type == QUIT:
             game = False
     if finish != True:
-        window.blit(background, (0, 0))
+        # window.blit(background, (0, 0))
+        window.fill(img_back)
+        img_rocket.update_l()
+        img_rocket1.update_r()
+        img_ball.rect.x += speed_x
+        img_ball.rect.y += speed_y
         if sprite.collide_rect(img_rocket, img_ball) or sprite.collide_rect(img_rocket1, img_ball):
            speed_x *= -1
            speed_y *= -1
-        if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+        if img_ball.rect.y > win_height - 50 or img_ball.rect.y < 0:
             speed_y *= -1
-        if ball.rect.x < 0:
+        if img_ball.rect.x < 0:
             finish = True
             window.blit(lose1,(200, 200))
             game_over = True
-        if ball.rect.x > win_widht
+        if img_ball.rect.x > win_width:
             finish = True
             window.blit(lose2,(200, 200))
             game_over = True
-        rocket1.reset()
-        rocket.reset()
-        ball.reset()
-        display.update()
-        clock.tick(FPS)
+        img_rocket1.reset()
+        img_rocket.reset()
+        img_ball.reset()
+    display.update()
+    clock.tick(FPS)
